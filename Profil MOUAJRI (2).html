@@ -1,0 +1,344 @@
+<!-- Palette: Vibrant Material (Indigo #4f46e5, Rose #e11d48, Teal #0d9488, Amber #d97706). Plan: 1. Hero KPIs. 2. Experience Timeline (HTML). 3. Impact Metrics (Chart.js Bar). 4. Engagement (Chart.js Doughnut). 5. Tool Matrix (Plotly scattergl). 6. Skills Radar (Chart.js Radar). Choices: KPI for Inform. HTML Timeline for Change. Donut for Proportion. Bar for Compare. Scatter for Relationships. Radar for Multivariate. NEITHER Mermaid JS NOR SVG were used anywhere in the output. -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infographie - Fatma MOUAJRI - Conseillère en pédagogie</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Roboto', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        .chart-container { position: relative; width: 100%; max-width: 100%; margin-left: auto; margin-right: auto; height: 350px; max-height: 400px; }
+        @media (min-width: 768px) { .chart-container { height: 400px; max-width: 600px; } }
+        .chart-container-large { position: relative; width: 100%; max-width: 100%; margin-left: auto; margin-right: auto; height: 400px; max-height: 500px; }
+        @media (min-width: 768px) { .chart-container-large { height: 450px; max-width: 800px; } }
+        .mat-card { background: white; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); padding: 1.5rem; transition: box-shadow 0.3s ease-in-out; height: 100%; display: flex; flex-direction: column; }
+        .mat-card:hover { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+        .text-gradient { background: linear-gradient(to right, #4f46e5, #e11d48); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .timeline-dot { width: 16px; height: 16px; border-radius: 50%; background-color: #0d9488; border: 4px solid #ccfbf1; position: absolute; left: -8px; top: 6px; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <nav class="bg-indigo-700 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold tracking-wider">FATMA MOUAJRI</h1>
+            <span class="bg-rose-500 text-white text-sm font-bold px-3 py-1 rounded-full">Disponibilité Immédiate</span>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">
+        
+        <header class="text-center space-y-6 mat-card bg-gradient-to-br from-indigo-50 to-white">
+            <h2 class="text-4xl md:text-5xl font-black text-slate-800 tracking-tight">Conseillère en Pédagogie Universitaire</h2>
+            <h3 class="text-2xl font-bold text-gradient">Experte en Ingénierie de Formation & Digital Learning</h3>
+            <p class="text-lg text-slate-600 max-w-3xl mx-auto leading-relaxed">
+                Plus de 10 ans d'expertise dans la transformation de besoins académiques complexes en parcours de formation innovants. Spécialisée dans l'accompagnement des intervenants, le déploiement de dispositifs hybrides et l'intégration de l'IA au service de l'engagement apprenant.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6">
+                <div class="bg-indigo-100 rounded-xl p-6 text-center border-b-4 border-indigo-500">
+                    <div class="text-5xl font-black text-indigo-700 mb-2">10+</div>
+                    <div class="text-sm font-bold text-slate-700 uppercase">Années d'expérience</div>
+                </div>
+                <div class="bg-rose-100 rounded-xl p-6 text-center border-b-4 border-rose-500">
+                    <div class="text-5xl font-black text-rose-700 mb-2">80+</div>
+                    <div class="text-sm font-bold text-slate-700 uppercase">Modules E-learning créés</div>
+                </div>
+                <div class="bg-teal-100 rounded-xl p-6 text-center border-b-4 border-teal-500">
+                    <div class="text-5xl font-black text-teal-700 mb-2">+35%</div>
+                    <div class="text-sm font-bold text-slate-700 uppercase">D'engagement apprenant</div>
+                </div>
+            </div>
+        </header>
+
+        <section>
+            <div class="mb-6">
+                <h2 class="text-3xl font-bold text-slate-800 border-l-4 border-amber-500 pl-4">Impact et Capacités Opérationnelles</h2>
+                <p class="mt-2 text-slate-600">Analyse quantitative des réalisations clés et de l'impact direct sur les projets pédagogiques récents, démontrant une capacité à piloter des dispositifs à grande échelle.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="mat-card">
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 text-center">Volume de Production & Coordination</h3>
+                    <p class="text-sm text-slate-500 mb-6 text-center">Comparaison des indicateurs de performance clés illustrant l'envergure des projets gérés.</p>
+                    <div class="chart-container flex-grow">
+                        <canvas id="impactBarChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="mat-card">
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 text-center">Gain d'Engagement (Projet BETA)</h3>
+                    <p class="text-sm text-slate-500 mb-6 text-center">Mesure de l'impact des stratégies de scénarisation innovantes sur l'implication des apprenants.</p>
+                    <div class="chart-container flex-grow">
+                        <canvas id="engagementDonutChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="mb-6">
+                <h2 class="text-3xl font-bold text-slate-800 border-l-4 border-indigo-500 pl-4">Écosystème Technologique & Compétences</h2>
+                <p class="mt-2 text-slate-600">Cartographie des compétences techniques et méthodologiques mobilisées pour la création de parcours hybrides et l'acculturation numérique.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="mat-card">
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 text-center">Maîtrise des Hard Skills</h3>
+                    <p class="text-sm text-slate-500 mb-6 text-center">Évaluation du niveau d'expertise sur les piliers de l'ingénierie pédagogique.</p>
+                    <div class="chart-container flex-grow">
+                        <canvas id="skillsRadarChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="mat-card">
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 text-center">Matrice des Outils EdTech</h3>
+                    <p class="text-sm text-slate-500 mb-6 text-center">Corrélation entre la fréquence d'utilisation, la maîtrise technique et l'impact stratégique des outils (Taille de la bulle).</p>
+                    <div class="chart-container-large flex-grow" id="toolsScatterPlot"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mat-card bg-slate-50 border-t-4 border-teal-500">
+            <div class="mb-8 text-center">
+                <h2 class="text-3xl font-bold text-slate-800">Trajectoire Professionnelle</h2>
+                <p class="mt-2 text-slate-600 max-w-2xl mx-auto">Une évolution continue de l'enseignement direct vers le pilotage stratégique de dispositifs de formation et la transformation numérique globale.</p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto relative border-l-2 border-slate-300 ml-4 md:ml-auto">
+                
+                <div class="mb-10 ml-8 relative">
+                    <div class="timeline-dot bg-indigo-600 border-indigo-200"></div>
+                    <div class="flex flex-col md:flex-row md:items-center justify-between">
+                        <h3 class="text-xl font-bold text-indigo-700">Consultante en transformation des pratiques</h3>
+                        <span class="text-sm font-bold bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full mt-2 md:mt-0 w-fit">2025 - Présent</span>
+                    </div>
+                    <h4 class="text-md font-semibold text-slate-700 mt-1">Adie</h4>
+                    <p class="mt-2 text-slate-600">Conseil et accompagnement stratégique pour l’acculturation numérique et l’intégration de l’IA dans les parcours d'apprentissage de 40+ profils, garantissant une montée en compétences autonome et durable.</p>
+                </div>
+
+                <div class="mb-10 ml-8 relative">
+                    <div class="timeline-dot bg-rose-600 border-rose-200"></div>
+                    <div class="flex flex-col md:flex-row md:items-center justify-between">
+                        <h3 class="text-xl font-bold text-rose-700">Chargée de projet Ingénierie Pédagogique</h3>
+                        <span class="text-sm font-bold bg-rose-100 text-rose-800 px-3 py-1 rounded-full mt-2 md:mt-0 w-fit">2024 - 2025</span>
+                    </div>
+                    <h4 class="text-md font-semibold text-slate-700 mt-1">GOMYCODE (École du numérique)</h4>
+                    <p class="mt-2 text-slate-600">Optimisation de la qualité pédagogique via une analyse rigoureuse des besoins et la coordination d'experts pour assurer l'alignement entre objectifs et modalités d'évaluation.</p>
+                </div>
+
+                <div class="mb-10 ml-8 relative">
+                    <div class="timeline-dot bg-teal-600 border-teal-200"></div>
+                    <div class="flex flex-col md:flex-row md:items-center justify-between">
+                        <h3 class="text-xl font-bold text-teal-700">Responsable de projet E-learning</h3>
+                        <span class="text-sm font-bold bg-teal-100 text-teal-800 px-3 py-1 rounded-full mt-2 md:mt-0 w-fit">2017 - 2020</span>
+                    </div>
+                    <h4 class="text-md font-semibold text-slate-700 mt-1">BETA (Agence digitale)</h4>
+                    <p class="mt-2 text-slate-600">Pilotage de la conception de 80+ modules interactifs en coordonnant une équipe pluridisciplinaire (18 personnes), avec des stratégies de scénarisation innovantes.</p>
+                </div>
+
+                <div class="mb-10 ml-8 relative">
+                    <div class="timeline-dot bg-amber-600 border-amber-200"></div>
+                    <div class="flex flex-col md:flex-row md:items-center justify-between">
+                        <h3 class="text-xl font-bold text-amber-700">Formatrice IT & Consultante en Certification</h3>
+                        <span class="text-sm font-bold bg-amber-100 text-amber-800 px-3 py-1 rounded-full mt-2 md:mt-0 w-fit">2015 - 2020</span>
+                    </div>
+                    <h4 class="text-md font-semibold text-slate-700 mt-1">Microsoft IT Academy</h4>
+                    <p class="mt-2 text-slate-600">Accompagnement pédagogique vers la certification via le déploiement de parcours hybrides structurés et l'animation d'ateliers de pédagogie active.</p>
+                </div>
+
+                <div class="ml-8 relative">
+                    <div class="timeline-dot bg-slate-600 border-slate-200"></div>
+                    <div class="flex flex-col md:flex-row md:items-center justify-between">
+                        <h3 class="text-xl font-bold text-slate-700">Professeure des Technologies Numériques</h3>
+                        <span class="text-sm font-bold bg-slate-200 text-slate-800 px-3 py-1 rounded-full mt-2 md:mt-0 w-fit">2009 - 2017</span>
+                    </div>
+                    <h4 class="text-md font-semibold text-slate-700 mt-1">Enseignement Secondaire</h4>
+                    <p class="mt-2 text-slate-600">Conception de progressions pédagogiques annuelles et développement de ressources didactiques numériques.</p>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-8 text-center mt-12">
+        <p class="font-bold text-white mb-2">Fatma MOUAJRI - Ingénierie Pédagogique & Digital Learning</p>
+        <p>Master 2 Pratiques et ingénierie de la formation | Master EdTech</p>
+        <p class="mt-4 text-sm text-slate-500">Contact : mouajrifatma@gmail.com | 06.02.46.33.11</p>
+    </footer>
+
+    <script>
+        function wrapLabel(label) {
+            if (label.length <= 16) return label;
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = words[0];
+            for (let i = 1; i < words.length; i++) {
+                if (currentLine.length + words[i].length + 1 <= 16) {
+                    currentLine += ' ' + words[i];
+                } else {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+
+        const commonTooltipConfig = {
+            callbacks: {
+                title: function(tooltipItems) {
+                    const item = tooltipItems[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    if (Array.isArray(label)) {
+                        return label.join(' ');
+                    } else {
+                        return label;
+                    }
+                }
+            }
+        };
+
+        const barLabelsRaw = ["Modules Interactifs Conçus", "Profils Accompagnés Adie", "Équipe Pluridisciplinaire", "Formations IT Animées"];
+        const barLabelsWrapped = barLabelsRaw.map(wrapLabel);
+        
+        new Chart(document.getElementById('impactBarChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: barLabelsWrapped,
+                datasets: [{
+                    label: 'Volume / Quantité',
+                    data: [80, 40, 18, 100],
+                    backgroundColor: ['#4f46e5', '#e11d48', '#0d9488', '#d97706'],
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: commonTooltipConfig
+                },
+                scales: {
+                    y: { beginAtZero: true, grid: { color: '#f1f5f9' } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+
+        const donutLabelsRaw = ["Engagement Généré", "Engagement Initial / Reste"];
+        const donutLabelsWrapped = donutLabelsRaw.map(wrapLabel);
+
+        new Chart(document.getElementById('engagementDonutChart').getContext('2d'), {
+            type: 'doughnut',
+            data: {
+                labels: donutLabelsWrapped,
+                datasets: [{
+                    data: [35, 65],
+                    backgroundColor: ['#0d9488', '#f1f5f9'],
+                    borderWidth: 0,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                cutout: '75%',
+                plugins: {
+                    tooltip: commonTooltipConfig,
+                    legend: { position: 'bottom' }
+                }
+            },
+            plugins: [{
+                id: 'textCenter',
+                beforeDraw: function(chart) {
+                    var width = chart.width, height = chart.height, ctx = chart.ctx;
+                    ctx.restore();
+                    var fontSize = (height / 114).toFixed(2);
+                    ctx.font = "bold " + fontSize + "em Roboto";
+                    ctx.textBaseline = "middle";
+                    ctx.fillStyle = "#0d9488";
+                    var text = "+35%", textX = Math.round((width - ctx.measureText(text).width) / 2), textY = height / 2.2;
+                    ctx.fillText(text, textX, textY);
+                    
+                    ctx.font = "normal " + (fontSize * 0.3) + "em Roboto";
+                    ctx.fillStyle = "#64748b";
+                    var text2 = "Engagement", text2X = Math.round((width - ctx.measureText(text2).width) / 2), text2Y = height / 2.2 + 30;
+                    ctx.fillText(text2, text2X, text2Y);
+                    ctx.save();
+                }
+            }]
+        });
+
+        const radarLabelsRaw = ["Ingénierie Pédagogique", "Design Pédagogique", "Évaluation Formative", "Scénarisation Interactive", "Conseil Stratégique", "Analyse des Besoins"];
+        const radarLabelsWrapped = radarLabelsRaw.map(wrapLabel);
+
+        new Chart(document.getElementById('skillsRadarChart').getContext('2d'), {
+            type: 'radar',
+            data: {
+                labels: radarLabelsWrapped,
+                datasets: [{
+                    label: 'Niveau d\'expertise (sur 100)',
+                    data: [95, 90, 85, 90, 85, 95],
+                    backgroundColor: 'rgba(79, 70, 229, 0.2)',
+                    borderColor: '#4f46e5',
+                    pointBackgroundColor: '#e11d48',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: '#e11d48',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                plugins: {
+                    tooltip: commonTooltipConfig,
+                    legend: { display: false }
+                },
+                scales: {
+                    r: {
+                        angleLines: { color: '#e2e8f0' },
+                        grid: { color: '#e2e8f0' },
+                        pointLabels: { font: { family: 'Roboto', size: 11 }, color: '#475569' },
+                        ticks: { display: false, min: 0, max: 100 }
+                    }
+                }
+            }
+        });
+
+        const toolsData = [{
+            x: [95, 90, 85, 80, 88, 75], 
+            y: [90, 85, 95, 75, 80, 60], 
+            mode: 'markers+text',
+            type: 'scattergl',
+            text: ['Articulate 360', 'Moodle', 'IA Générative', 'Canva', 'Notion/Teams', 'Genially'],
+            textposition: 'top center',
+            textfont: { family: 'Roboto', size: 11, color: '#334155' },
+            marker: {
+                size: [35, 30, 45, 20, 25, 20], 
+                color: ['#4f46e5', '#d97706', '#e11d48', '#0d9488', '#3b82f6', '#8b5cf6'],
+                opacity: 0.8,
+                line: { width: 2, color: '#ffffff' }
+            },
+            hovertemplate: '<b>%{text}</b><br>Maîtrise: %{x}%<br>Utilisation: %{y}%<extra></extra>'
+        }];
+
+        const toolsLayout = {
+            xaxis: { title: 'Niveau de Maîtrise Technique', range: [60, 105], gridcolor: '#f1f5f9', zeroline: false },
+            yaxis: { title: 'Fréquence d\'utilisation / Intégration', range: [50, 105], gridcolor: '#f1f5f9', zeroline: false },
+            margin: { t: 20, b: 40, l: 40, r: 20 },
+            paper_bgcolor: 'transparent',
+            plot_bgcolor: 'transparent',
+            hovermode: 'closest',
+            dragmode: false
+        };
+
+        Plotly.newPlot('toolsScatterPlot', toolsData, toolsLayout, {displayModeBar: false, responsive: true});
+
+    </script>
+</body>
+</html>
